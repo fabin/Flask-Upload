@@ -35,8 +35,8 @@ def upload_file():
             logging.exception("Something awful happened!")
     return '''
     <!doctype html>
-    <title>Upload new File (in modlue)</title>
-    <h1>Upload new File (in modlue)</h1>
+    <title>Upload new File</title>
+    <h1>Upload new File (in package)</h1>
     <form action="" method=post enctype=multipart/form-data>
       <p><input type=file name=file>
          <input type=submit value=Upload>

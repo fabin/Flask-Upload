@@ -1,7 +1,7 @@
 Flask-Upload
 ============
 
-The [Upload Files with Flask demo][1] integrated SAE[2]. Changed to module as [Larger Applications][3] section described.
+The [Upload Files with Flask demo][1] integrated [SAE][2]. Changed to module as [Larger Applications][3] section described.
 
 
 [1]: http://flask.pocoo.org/docs/patterns/fileuploads/#uploading-files
