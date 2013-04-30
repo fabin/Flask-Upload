@@ -1,12 +1,16 @@
 import os
+import sae.storage
 from flask import Flask, request, redirect, url_for, send_from_directory
+import sys
+import logging
 
-UPLOAD_FOLDER = '/Users/fabin/Documents/deploy/Flask-UploadFile'
+UPLOAD_FOLDER = '~/Documents/deploy/Flask-UploadFile'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+DOMAIN_NAME = 'album'
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -16,13 +20,19 @@ def allowed_file(filename):
 def upload_file():
     if request.method == 'POST':
         try:
-            file = request.files['file']
-            if file and allowed_file(file.filename):
-                filename = file.filename
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                return redirect(url_for('uploaded_file', filename=filename))
-        except (RuntimeError,), e:
-            print e
+            s = sae.storage.Client()
+            uploadedFile = request.files['file']
+            if uploadedFile and allowed_file(uploadedFile.filename):
+                filename = uploadedFile.filename
+#                 without sae
+#                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+#                 return redirect(url_for('uploaded_file', filename=filename))
+                
+#                 with sae
+                ob = sae.storage.Object(uploadedFile.read())
+                return redirect(s.put(DOMAIN_NAME, filename, ob))
+        except:
+            logging.exception("Something awful happened!")
     return '''
     <!doctype html>
     <title>Upload new File (in modlue)</title>
